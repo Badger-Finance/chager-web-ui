@@ -12,6 +12,42 @@ if (process.env.NEXT_PUBLIC_KOVAN_URL) {
     kovanURL = process.env.NEXT_PUBLIC_KOVAN_URL;
 }
 
+// Get the Fantom URL from the .env file
+let fantomURL = "https://rpc.ftm.tools/";
+let fantomChainId = 250;
+
+export const changeToFantom = async () => {
+    const metamask = window.ethereum;
+    try {
+        await metamask?.request({
+            method: "wallet_addEthereumChain",
+            params: [
+                {
+                    chainId: `0x${fantomChainId.toString(16)}`,
+                    chainName: "Fantom Mainnet",
+                    nativeCurrency: {
+                        name: "Fantom",
+                        symbol: "FTM",
+                        decimals: 18,
+                    },
+                    rpcUrls: [fantomURL],
+                    blockExplorerUrls: ["https://api.ftmscan.com/"],
+                },
+            ],
+        });
+    } catch (error) {
+        console.log(error);
+        await metamask?.request({
+            method: "wallet_switchEthereumChain",
+            params: [
+                {
+                    chainId: `0x${fantomChainId.toString(16)}`,
+                },
+            ],
+        });
+    }
+};
+
 export const changeToArbitrum = async () => {
     const metamask = window.ethereum;
     try {

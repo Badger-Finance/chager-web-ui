@@ -1,7 +1,7 @@
 import { utils } from "ethers";
 
-const UDSC_ADDRESS = "0x0Af08696CB51e81456DC0a1dee7F8BfAD8d82a22";
-const WETH_ADDRESS = "0x1673801682F5EAE287Bb7081Cf7d0D1d768E661a";
+const UDSC_ADDRESS = "0x04068DA6C83AFCFA0e13ba15A6696662335D5B75"; // usdc fantom
+const WETH_ADDRESS = "0x21be370D5312f44cB42ce377BC9b8a0cEF1A4C83"; // wftm
 
 const INTERFACE = new utils.Interface([
     // Read only

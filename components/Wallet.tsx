@@ -8,8 +8,16 @@ import { WalletConnectConnector } from "wagmi/connectors/walletConnect";
 
 export const connectorStorageKey = "chadgerConnectors.wallet";
 
-export const supportedChains = [Chains.kovan, Chains.mainnet];
-export const DEFAULT_CHAIN = Chains.kovan;
+export const FantomChain: Chain = {
+    id: 250,
+    name: "Fantom",
+    nativeCurrency: { name: "Fantom", symbol: "FTM", decimals: 18 },
+    rpcUrls: ["https://rpc.fantom.network"],
+    testnet: false,
+};
+
+export const supportedChains = [Chains.kovan, Chains.mainnet, FantomChain];
+export const DEFAULT_CHAIN = FantomChain;
 
 // Wallet connectors
 export const MetaMaskConnector = new InjectedConnector({
@@ -21,6 +29,7 @@ export const WCConnector = new WalletConnectConnector({
     options: {
         qrcode: true,
         rpc: {
+            [250]: "https://rpc.fantom.network",
             [Chains.rinkeby.id]: "https://rinkeby.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161",
             [Chains.ropsten.id]: "https://ropsten.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161",
             [Chains.kovan.id]: "https://kovan.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161",
@@ -33,6 +42,7 @@ export const RinkebyProvider = new providers.JsonRpcProvider("https://rinkeby.in
 export const RopstenProvider = new providers.JsonRpcProvider("https://ropsten.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161", Chains.ropsten.id);
 export const KovanProvider = new providers.JsonRpcProvider("https://kovan.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161", Chains.kovan.id);
 export const MainnetProvider = new providers.JsonRpcProvider("https://mainnet.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161", Chains.mainnet.id);
+export const FantomProvider = new providers.JsonRpcProvider("https://rpc.fantom.network", 250);
 
 export type WalletStates = {
     account: string | undefined;
@@ -67,6 +77,8 @@ type WalletGlobalStateProps = {
 
 const getProvider = (config: { chainId?: number }) => {
     switch (config.chainId) {
+        case 250:
+            return FantomProvider;
         case Chains.rinkeby.id:
             return RinkebyProvider;
         case Chains.ropsten.id:
@@ -76,7 +88,7 @@ const getProvider = (config: { chainId?: number }) => {
         case Chains.mainnet.id:
             return MainnetProvider;
         default:
-            return MainnetProvider;
+            return FantomProvider;
     }
 };
 

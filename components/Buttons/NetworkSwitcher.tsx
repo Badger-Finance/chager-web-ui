@@ -31,6 +31,8 @@ const ButtonNetworkSwitcher: FunctionComponent<ButtonNetworkSwitcherProps> = ({}
 
     const getChainIconPath = (c: Chain): string => {
         switch (c.id) {
+            case 250:
+                return "/networks/Fantom.svg";
             case Chains.mainnet.id:
                 return "/networks/Ethereum.svg";
             case Chains.ropsten.id:
