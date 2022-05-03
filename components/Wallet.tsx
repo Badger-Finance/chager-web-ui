@@ -14,6 +14,7 @@ export const FantomChain: Chain = {
     nativeCurrency: { name: "Fantom", symbol: "FTM", decimals: 18 },
     rpcUrls: ["https://rpc.fantom.network"],
     testnet: false,
+    blockExplorers: [{ name: "FtmScan", url: "https://ftmscan.com/" }],
 };
 
 export const supportedChains = [Chains.kovan, Chains.mainnet, FantomChain];
