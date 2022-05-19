@@ -1,6 +1,6 @@
 # Chadger Web UI
 
-https://chadger.devpug.xyz/
+https://chager-web-ui.vercel.app/
 
 ## Dev
 
