@@ -12,7 +12,7 @@ export const FantomChain: Chain = {
     id: 250,
     name: "Fantom",
     nativeCurrency: { name: "Fantom", symbol: "FTM", decimals: 18 },
-    rpcUrls: ["https://rpc.fantom.network"],
+    rpcUrls: ["https://rpc.ftm.tools"],
     testnet: false,
     blockExplorers: [{ name: "FtmScan", url: "https://ftmscan.com/" }],
 };
@@ -30,7 +30,7 @@ export const WCConnector = new WalletConnectConnector({
     options: {
         qrcode: true,
         rpc: {
-            [250]: "https://rpc.fantom.network",
+            [250]: "https://rpc.ftm.tools",
             [Chains.rinkeby.id]: "https://rinkeby.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161",
             [Chains.ropsten.id]: "https://ropsten.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161",
             [Chains.kovan.id]: "https://kovan.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161",
@@ -43,7 +43,7 @@ export const RinkebyProvider = new providers.JsonRpcProvider("https://rinkeby.in
 export const RopstenProvider = new providers.JsonRpcProvider("https://ropsten.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161", Chains.ropsten.id);
 export const KovanProvider = new providers.JsonRpcProvider("https://kovan.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161", Chains.kovan.id);
 export const MainnetProvider = new providers.JsonRpcProvider("https://mainnet.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161", Chains.mainnet.id);
-export const FantomProvider = new providers.JsonRpcProvider("https://rpc.fantom.network", 250);
+export const FantomProvider = new providers.JsonRpcProvider("https://rpc.ftm.tools", 250);
 
 export type WalletStates = {
     account: string | undefined;

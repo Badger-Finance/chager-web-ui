@@ -46,17 +46,92 @@
                         "type": "uint256"
                     }
                 ],
-                "internalType": "struct CadgerRegistry.TokenAmount",
-                "name": "tokenAmount",
-                "type": "tuple"
-            }
-        ],
-        "name": "amountInUSD",
-        "outputs": [
+                "internalType": "struct ChadgerRegistry.TokenAmount[]",
+                "name": "_simulatedYields",
+                "type": "tuple[]"
+            },
             {
                 "internalType": "uint256",
-                "name": "amount",
+                "name": "_lastHarvestedAt",
                 "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_tvl",
+                "type": "uint256"
+            }
+        ],
+        "name": "getExpectedAnnualYield",
+        "outputs": [
+            {
+                "components": [
+                    {
+                        "internalType": "address",
+                        "name": "token",
+                        "type": "address"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "yield",
+                        "type": "uint256"
+                    }
+                ],
+                "internalType": "struct ChadgerRegistry.TokenYield[]",
+                "name": "yield",
+                "type": "tuple[]"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "_vault",
+                "type": "address"
+            },
+            {
+                "internalType": "address",
+                "name": "_account",
+                "type": "address"
+            },
+            {
+                "components": [
+                    {
+                        "internalType": "address",
+                        "name": "token",
+                        "type": "address"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "amount",
+                        "type": "uint256"
+                    }
+                ],
+                "internalType": "struct ChadgerRegistry.TokenAmount[]",
+                "name": "_simulatedYields",
+                "type": "tuple[]"
+            }
+        ],
+        "name": "getExpectedAnnualYield",
+        "outputs": [
+            {
+                "components": [
+                    {
+                        "internalType": "address",
+                        "name": "token",
+                        "type": "address"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "yield",
+                        "type": "uint256"
+                    }
+                ],
+                "internalType": "struct ChadgerRegistry.TokenYield[]",
+                "name": "yield",
+                "type": "tuple[]"
             }
         ],
         "stateMutability": "view",
@@ -97,59 +172,6 @@
     {
         "inputs": [
             {
-                "components": [
-                    {
-                        "internalType": "address",
-                        "name": "token",
-                        "type": "address"
-                    },
-                    {
-                        "internalType": "uint256",
-                        "name": "amount",
-                        "type": "uint256"
-                    }
-                ],
-                "internalType": "struct CadgerRegistry.TokenAmount[]",
-                "name": "_simulatedYields",
-                "type": "tuple[]"
-            },
-            {
-                "internalType": "uint256",
-                "name": "_lastHarvestedAt",
-                "type": "uint256"
-            },
-            {
-                "internalType": "uint256",
-                "name": "tvlInUSD",
-                "type": "uint256"
-            }
-        ],
-        "name": "getTokensAPR",
-        "outputs": [
-            {
-                "components": [
-                    {
-                        "internalType": "address",
-                        "name": "token",
-                        "type": "address"
-                    },
-                    {
-                        "internalType": "uint256",
-                        "name": "apr",
-                        "type": "uint256"
-                    }
-                ],
-                "internalType": "struct CadgerRegistry.TokenApr[]",
-                "name": "apr",
-                "type": "tuple[]"
-            }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
                 "internalType": "address",
                 "name": "_vault",
                 "type": "address"
@@ -167,7 +189,7 @@
                         "type": "uint256"
                     }
                 ],
-                "internalType": "struct CadgerRegistry.TokenAmount[]",
+                "internalType": "struct ChadgerRegistry.TokenAmount[]",
                 "name": "simulatedYields",
                 "type": "tuple[]"
             }
@@ -242,11 +264,6 @@
                         "type": "uint256"
                     },
                     {
-                        "internalType": "uint256",
-                        "name": "tvlInUSD",
-                        "type": "uint256"
-                    },
-                    {
                         "components": [
                             {
                                 "internalType": "address",
@@ -255,16 +272,16 @@
                             },
                             {
                                 "internalType": "uint256",
-                                "name": "apr",
+                                "name": "yield",
                                 "type": "uint256"
                             }
                         ],
-                        "internalType": "struct CadgerRegistry.TokenApr[]",
-                        "name": "apr",
+                        "internalType": "struct ChadgerRegistry.TokenYield[]",
+                        "name": "yield",
                         "type": "tuple[]"
                     }
                 ],
-                "internalType": "struct CadgerRegistry.VaultData",
+                "internalType": "struct ChadgerRegistry.VaultData",
                 "name": "vaultData",
                 "type": "tuple"
             }
@@ -290,11 +307,6 @@
             {
                 "internalType": "uint256",
                 "name": "deposits",
-                "type": "uint256"
-            },
-            {
-                "internalType": "uint256",
-                "name": "depositsInUSD",
                 "type": "uint256"
             }
         ],

@@ -26,13 +26,12 @@ export interface VaultBaseInfo {
     managementFee: BigNumber;
     lastHarvestedAt: Date;
     tvl: BigNumber;
-    tvlInUSD: BigNumber;
-    apr: BigNumber;
-    tokenAprs: {
+    yield: BigNumber;
+    tokenYields: {
         address: string;
         name: string;
         symbol: string;
-        apr: BigNumber;
+        yield: BigNumber;
     }[];
     rewardTokenAddresses: string[];
     rewardTokens: {
@@ -162,7 +161,7 @@ export function useVaultApi() {
                     harvested.map((i) => [i.token, i.amount])
                 );
 
-                const rewardTokenAddresses = _.chain(vaultData.apr.map((a: any) => a.token) as string[])
+                const rewardTokenAddresses = _.chain(vaultData.yield.map((a: any) => a.token) as string[])
                     .map((i: string) => i.toLowerCase())
                     .uniq()
                     .value();
@@ -193,16 +192,15 @@ export function useVaultApi() {
                     depositsInUSD: vaultData.depositsInUSD,
                     lastHarvestedAt: new Date(vaultData.lastHarvestedAt.toNumber() * 1000),
                     tvl: vaultData.tvl,
-                    tvlInUSD: vaultData.tvlInUSD,
-                    apr: vaultData.apr.reduce((acc: BigNumber, i: any) => acc.add(i.apr), BigNumber.from(0)),
-                    tokenAprs: vaultData.apr.map((i: any) => {
+                    yield: vaultData.yield.reduce((acc: BigNumber, i: any) => acc.add(i.yield), BigNumber.from(0)),
+                    tokenYields: vaultData.yield.map((i: any) => {
                         return {
                             ...tokenInfoMap[i.token.toLowerCase()],
-                            apr: i.apr,
+                            yield: i.yield,
                         };
                     }),
-                    rewardTokenAddresses: vaultData.apr.map((a: any) => a.token),
-                    rewardTokens: _.chain(vaultData.apr.map((a: any) => a.token) as string[])
+                    rewardTokenAddresses: vaultData.yield.map((a: any) => a.token),
+                    rewardTokens: _.chain(vaultData.yield.map((a: any) => a.token) as string[])
                         .map((i) => tokenInfoMap[i.toLowerCase()])
                         .compact()
                         .value(),
@@ -287,7 +285,7 @@ export function useVaultApi() {
             );
 
             const rewardTokenAddresses = _.chain(vaultData)
-                .map((i) => i.apr.map((a: any) => a.token) as string[])
+                .map((i) => i.yield.map((a: any) => a.token) as string[])
                 .flatten()
                 .map((i: string) => i.toLowerCase())
                 .uniq()
@@ -318,16 +316,15 @@ export function useVaultApi() {
                     managementFee: i.managementFee,
                     lastHarvestedAt: new Date(i.lastHarvestedAt.toNumber() * 1000),
                     tvl: i.tvl,
-                    tvlInUSD: i.tvlInUSD,
-                    apr: i.apr.reduce((acc: BigNumber, i: any) => acc.add(i.apr), BigNumber.from(0)),
-                    tokenAprs: i.apr.map((i: any) => {
+                    yield: i.yield.reduce((acc: BigNumber, i: any) => acc.add(i.yield), BigNumber.from(0)),
+                    tokenYields: i.yield.map((i: any) => {
                         return {
                             ...tokenInfoMap[i.token.toLowerCase()],
-                            apr: i.apr,
+                            yield: i.yield,
                         };
                     }),
-                    rewardTokenAddresses: i.apr.map((a: any) => a.token),
-                    rewardTokens: _.chain(i.apr.map((a: any) => a.token) as string[])
+                    rewardTokenAddresses: i.yield.map((a: any) => a.token),
+                    rewardTokens: _.chain(i.yield.map((a: any) => a.token) as string[])
                         .map((i) => tokenInfoMap[i.toLowerCase()])
                         .compact()
                         .value(),

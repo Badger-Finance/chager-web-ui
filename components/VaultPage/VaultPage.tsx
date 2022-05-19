@@ -171,18 +171,18 @@ const VaultPage: FunctionComponent<VaultPageProps> = ({}) => {
                             <div className="mb-10"></div>
 
                             <div className="mb-1 flex flex-row justify-between">
-                                <div className="opacity-75">APR</div>
+                                <div className="opacity-75">YIELD</div>
                                 <div className="flex flex-col items-end">
-                                    {vault.tokenAprs
-                                        .filter((tokenApr) => {
-                                            return tokenApr.address.toLowerCase() === vault.tokenAddress.toLowerCase();
+                                    {vault.tokenYields
+                                        .filter((tokenYield) => {
+                                            return tokenYield.address.toLowerCase() === vault.tokenAddress.toLowerCase();
                                         })
-                                        .map((tokenApr) => {
+                                        .map((tokenYield) => {
                                             return (
-                                                <div key={tokenApr.address}>
+                                                <div key={tokenYield.address}>
                                                     <div className="flex flex-row items-center justify-end">
                                                         <div className="tabular-nums">
-                                                            {Number(tokenApr.apr.div(100).toString()).toLocaleString("en-US", {
+                                                            {Number(tokenYield.yield.div(100).toString()).toLocaleString("en-US", {
                                                                 maximumFractionDigits: 2,
                                                             })}
                                                             %
@@ -196,9 +196,9 @@ const VaultPage: FunctionComponent<VaultPageProps> = ({}) => {
                             <div className="mb-1 flex flex-row justify-between">
                                 <div className="opacity-75">Additional Reward Tokens</div>
                                 <div>
-                                    {vault.tokenAprs
-                                        .filter((tokenApr) => {
-                                            return tokenApr.address.toLowerCase() !== vault.tokenAddress.toLowerCase();
+                                    {vault.tokenYields
+                                        .filter((tokenYield) => {
+                                            return tokenYield.address.toLowerCase() !== vault.tokenAddress.toLowerCase();
                                         })
                                         .map((rewardToken) => {
                                             return (
@@ -210,7 +210,7 @@ const VaultPage: FunctionComponent<VaultPageProps> = ({}) => {
                                                             </div>
                                                             <div className="flex flex-row items-center justify-end">
                                                                 <div className="tabular-nums">
-                                                                    {Number(rewardToken.apr.div(100).toString()).toLocaleString("en-US", {
+                                                                    {Number(rewardToken.yield.div(100).toString()).toLocaleString("en-US", {
                                                                         maximumFractionDigits: 2,
                                                                     })}
                                                                     %

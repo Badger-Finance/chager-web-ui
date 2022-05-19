@@ -74,7 +74,7 @@ const VaultList: FunctionComponent<VaultListProps> = (props) => {
             render: (value, item) => {
                 return (
                     <div>
-                        {Number(item.tvlInUSD.div(BigNumber.from(10).pow(18))).toLocaleString("en-US", {
+                        {Number(item.tvl.div(BigNumber.from(10).pow(18))).toLocaleString("en-US", {
                             maximumFractionDigits: 2,
                             style: "currency",
                             currency: "USD",
@@ -84,14 +84,14 @@ const VaultList: FunctionComponent<VaultListProps> = (props) => {
             },
         },
         {
-            title: "APR",
-            dataIndex: "apr",
-            key: "apr",
+            title: "YIELD",
+            dataIndex: "yield",
+            key: "yield",
             align: "right",
             render: (value, item) => {
                 return (
                     <div>
-                        {Number(item.apr.div(100).toString()).toLocaleString("en-US", {
+                        {Number(item.yield.div(100).toString()).toLocaleString("en-US", {
                             maximumFractionDigits: 2,
                         })}
                         %
@@ -172,7 +172,7 @@ const VaultList: FunctionComponent<VaultListProps> = (props) => {
             })
             .sort((a, b) => {
                 if (sortBy === "apy") {
-                    return b.apr.sub(a.apr).div(10000).toNumber();
+                    return b.yield.sub(a.yield).div(10000).toNumber();
                 } else {
                     return b.tvl.sub(a.tvl).div(BigNumber.from(10).pow(18)).toNumber();
                 }
@@ -266,7 +266,7 @@ const VaultList: FunctionComponent<VaultListProps> = (props) => {
                                 }}
                             />
                             <label htmlFor="SortByApy" className="ml-1 cursor-pointer select-none">
-                                APR
+                                YIELD
                             </label>
                         </div>
                         <div className="ml-2 flex flex-row items-center">
