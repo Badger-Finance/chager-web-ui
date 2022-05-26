@@ -156,6 +156,7 @@ export function useVaultApi() {
                                 };
                             });
                         } catch (err) {
+                            // TODO: If harvest reverts should flag it up for Solidity Debugging
                             harvested = [];
                         }
                     }
