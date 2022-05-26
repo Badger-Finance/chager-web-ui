@@ -144,15 +144,20 @@ export function useVaultApi() {
                     })();
 
                     if (governance) {
-                        const data: any[] = await strategyContract.callStatic.harvest({
-                            from: governance,
-                        });
-                        harvested = data.map((i: any) => {
-                            return {
-                                token: i.token,
-                                amount: i.amount,
-                            };
-                        });
+                        console.log("Here?");
+                        try {
+                            const data: any[] = await strategyContract.callStatic.harvest({
+                                from: governance,
+                            });
+                            harvested = data.map((i: any) => {
+                                return {
+                                    token: i.token,
+                                    amount: i.amount,
+                                };
+                            });
+                        } catch (err) {
+                            harvested = [];
+                        }
                     }
                 }
 
