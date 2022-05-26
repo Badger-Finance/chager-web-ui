@@ -216,6 +216,7 @@ export function useVaultApi() {
     );
 
     const getAllVaultsBaseData = useCallback(async (): Promise<VaultBaseInfo[]> => {
+        console.log("=?=");
         const multicallProvider = new MulticallProvider(provider, chain.chain.id);
 
         const chadgerRegistryContractAddress = ChadgerRegistryContractAddresses[chain.chain.id];
@@ -232,6 +233,8 @@ export function useVaultApi() {
                     return chadgerRegistryMulticallContract.getStrategistVaults(strategist);
                 })
             );
+
+            console.log("vaultAddressGroup", vaultAddressGroup);
             const vaultAddresses = _.flatten(vaultAddressGroup);
 
             const vaultStrategyInfo = await multicallProvider.allDict(
@@ -244,8 +247,12 @@ export function useVaultApi() {
                 })
             );
 
+            const filteredVaultInfo = vaultStrategyInfo.filter((info) => {
+                return info.strategy != "0x0000000000000000000000000000000000000000";
+            });
+
             const vaultInfo = await P.map(
-                vaultStrategyInfo,
+                filteredVaultInfo,
                 (info) => {
                     return (async () => {
                         try {
