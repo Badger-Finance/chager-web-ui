@@ -61,7 +61,7 @@ type WalletGlobalStateProps = {
     children: ReactNode;
 };
 
-const getProvider = (config: { chainId?: number }) => {
+const getProvider = () => {
     return new ethers.providers.Web3Provider(window.ethereum);
 };
 
@@ -106,7 +106,7 @@ const WalletGlobalState: FunctionComponent<WalletGlobalStateProps> = ({ children
 
     // Create derivatives states based on the global states
     const chain = accountData.data && networkData.data ? (networkData.data.chain as Chain) : DEFAULT_CHAIN;
-    const provider = getProvider({ chainId: chain.id });
+    const provider = getProvider();
     const signer = signerData.data ? signerData.data : provider.getSigner();
     const isChainSupported = supportedChains.map((c) => c.id).includes(chain.id);
 
