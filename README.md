@@ -1,6 +1,6 @@
 # Chadger Web UI
 
-https://chager-web-ui.vercel.app/
+chadger.eth
 
 ## Dev
 
