@@ -4,7 +4,6 @@ import { Chain, Provider, chain as Chains, useAccount, useNetwork, useConnect, u
 import { createContext, useContext } from "react";
 import { ethers, providers } from "ethers";
 import { InjectedConnector } from "wagmi/connectors/injected";
-import { WalletConnectConnector } from "wagmi/connectors/walletConnect";
 
 export const connectorStorageKey = "chadgerConnectors.wallet";
 
@@ -25,21 +24,6 @@ export const MetaMaskConnector = new InjectedConnector({
     chains: supportedChains,
 });
 
-export const WCConnector = new WalletConnectConnector({
-    chains: supportedChains,
-    options: {
-        qrcode: true,
-        rpc: {
-            [250]: "https://rpc.ftm.tools",
-            [Chains.optimism.id]: "https://optimism-mainnet.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161",
-            [Chains.avalanche.id]: "https://avalanche-mainnet.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161",
-            [Chains.polygonMainnet.id]: "https://polygon-mainnet.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161",
-            [Chains.arbitrumOne.id]: "https://arbitrum-mainnet.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161",
-            [Chains.mainnet.id]: "https://mainnet.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161",
-        },
-    },
-});
-
 export const RinkebyProvider = new providers.JsonRpcProvider("https://rinkeby.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161", Chains.rinkeby.id);
 export const RopstenProvider = new providers.JsonRpcProvider("https://ropsten.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161", Chains.ropsten.id);
 export const KovanProvider = new providers.JsonRpcProvider("https://kovan.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161", Chains.kovan.id);
@@ -49,7 +33,7 @@ export const FantomProvider = new providers.JsonRpcProvider("https://rpc.ftm.too
 export type WalletStates = {
     account: string | undefined;
     chain: { unsupported: Boolean; chain: Chain };
-    connectWallet: (c: InjectedConnector | WalletConnectConnector) => Promise<any>;
+    connectWallet: (c: InjectedConnector) => Promise<any>;
     disconnectWallet: () => void;
     switchNetwork: ((chaindID: number) => Promise<any>) | undefined;
     signer: ethers.Signer | undefined;
@@ -59,7 +43,7 @@ export type WalletStates = {
 const WalletContext = createContext<WalletStates>({
     account: undefined,
     chain: { unsupported: false, chain: DEFAULT_CHAIN },
-    connectWallet: async (c: InjectedConnector | WalletConnectConnector) => {},
+    connectWallet: async (c: InjectedConnector) => {},
     disconnectWallet: () => {},
     switchNetwork: undefined,
     signer: undefined,
@@ -78,20 +62,7 @@ type WalletGlobalStateProps = {
 };
 
 const getProvider = (config: { chainId?: number }) => {
-    switch (config.chainId) {
-        case 250:
-            return FantomProvider;
-        case Chains.rinkeby.id:
-            return RinkebyProvider;
-        case Chains.ropsten.id:
-            return RopstenProvider;
-        case Chains.kovan.id:
-            return KovanProvider;
-        case Chains.mainnet.id:
-            return MainnetProvider;
-        default:
-            return FantomProvider;
-    }
+    return new ethers.providers.Web3Provider(window.ethereum);
 };
 
 const WalletGlobalState: FunctionComponent<WalletGlobalStateProps> = ({ children }) => {
@@ -106,7 +77,7 @@ const WalletGlobalState: FunctionComponent<WalletGlobalStateProps> = ({ children
 
     // List of action that will change the global states
     // Connect wallet
-    const connectWallet = async function (c: InjectedConnector | WalletConnectConnector) {
+    const connectWallet = async function (c: InjectedConnector) {
         try {
             const result = await connect(c);
             if (result && result.error) return result; // Return error early
@@ -116,19 +87,6 @@ const WalletGlobalState: FunctionComponent<WalletGlobalStateProps> = ({ children
                 setMetamaskState(MetamaskState.Connected);
             }
 
-            // Prevent connecting with WalletConnect if network is not right
-            if (c instanceof WalletConnectConnector) {
-                if (result?.data?.chain?.unsupported) {
-                    disconnect();
-                    return {
-                        data: undefined,
-                        error: new Error(`Please select ${chain.name} from your wallet`),
-                    };
-                }
-
-                // Reload the page
-                window.location.reload(); // IMPORTANT: Somehow wallectconnect signer connected to mainnet by default, fixed by reloading the page
-            }
             return result;
         } catch (e) {
             console.error("Cannot connect");
@@ -174,13 +132,15 @@ type WalletProps = {
     children: ReactNode;
 };
 
-export const Wallet: FunctionComponent<WalletProps> = ({ children }) => {
+const Wallet: FunctionComponent<WalletProps> = ({ children }) => {
     return (
-        <Provider autoConnect={true} connectorStorageKey={connectorStorageKey} connectors={[MetaMaskConnector, WCConnector]} provider={getProvider}>
+        <Provider autoConnect={true} connectorStorageKey={connectorStorageKey} connectors={[MetaMaskConnector]} provider={getProvider}>
             <WalletGlobalState>{children}</WalletGlobalState>
         </Provider>
     );
 };
+
+export default Wallet;
 
 export function useWalletContext() {
     return useContext(WalletContext);

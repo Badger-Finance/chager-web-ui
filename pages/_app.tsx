@@ -1,11 +1,13 @@
 import type { AppProps } from "next/app";
-import { Wallet } from "../components/Wallet";
 import { Toaster } from "react-hot-toast";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
+import dynamic from "next/dynamic";
 
 import "tailwindcss/tailwind.css";
 import "../styles/globals.css";
+
+const FEWallet = dynamic(() => import("../components/Wallet"), { ssr: false });
 
 // Create a client
 const queryClient = new QueryClient({
@@ -19,10 +21,10 @@ const queryClient = new QueryClient({
 function App({ Component, pageProps }: AppProps) {
     return (
         <QueryClientProvider client={queryClient}>
-            <Wallet>
+            <FEWallet>
                 <Toaster position="top-center" toastOptions={{ duration: 3000 }} />
                 <Component {...pageProps} />
-            </Wallet>
+            </FEWallet>
             <ReactQueryDevtools initialIsOpen={false} />
         </QueryClientProvider>
     );
