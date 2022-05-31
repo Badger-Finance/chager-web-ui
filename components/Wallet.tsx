@@ -17,7 +17,7 @@ export const FantomChain: Chain = {
     blockExplorers: [{ name: "FtmScan", url: "https://ftmscan.com/" }],
 };
 
-export const supportedChains = [Chains.kovan, Chains.mainnet, FantomChain];
+export const supportedChains = [Chains.mainnet, FantomChain];
 export const DEFAULT_CHAIN = FantomChain;
 
 // Wallet connectors
@@ -31,9 +31,10 @@ export const WCConnector = new WalletConnectConnector({
         qrcode: true,
         rpc: {
             [250]: "https://rpc.ftm.tools",
-            [Chains.rinkeby.id]: "https://rinkeby.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161",
-            [Chains.ropsten.id]: "https://ropsten.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161",
-            [Chains.kovan.id]: "https://kovan.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161",
+            [Chains.optimism.id]: "https://optimism-mainnet.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161",
+            [Chains.avalanche.id]: "https://avalanche-mainnet.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161",
+            [Chains.polygonMainnet.id]: "https://polygon-mainnet.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161",
+            [Chains.arbitrumOne.id]: "https://arbitrum-mainnet.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161",
             [Chains.mainnet.id]: "https://mainnet.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161",
         },
     },
