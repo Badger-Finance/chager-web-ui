@@ -16,7 +16,7 @@ export const FantomChain: Chain = {
     blockExplorers: [{ name: "FtmScan", url: "https://ftmscan.com/" }],
 };
 
-export const supportedChains = [Chains.mainnet, FantomChain];
+export const supportedChains = [Chains.mainnet, FantomChain, Chains.arbitrumOne, Chains.avalanche, Chains.optimism, Chains.polygonMainnet];
 export const DEFAULT_CHAIN = FantomChain;
 
 // Wallet connectors
