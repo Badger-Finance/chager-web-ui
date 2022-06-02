@@ -309,7 +309,7 @@ export function useVaultApi() {
                 .value();
 
             console.log("rewardTokenAddresses", rewardTokenAddresses);
-            const tokenInfo = [];
+            let tokenInfo = [];
             try {
                 tokenInfo = await multicallProvider.allDict(
                     rewardTokenAddresses.map((address) => {
