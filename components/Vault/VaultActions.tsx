@@ -5,7 +5,7 @@ import { VaultInfo } from "./useVaultApi";
 import VaultApproveButton from "./VaultApproveButton";
 import VaultDepositButton from "./VaultDepositButton";
 import VaultWithdrawButton from "./VaultWithdrawButton";
-
+import { Link } from "react-router-dom";
 /**
  * VaultActionsProps is a React Component properties that passed to React Component VaultActions
  */
@@ -26,6 +26,9 @@ const VaultActions: FunctionComponent<VaultActionsProps> = (props) => {
             <VaultDepositButton vault={props.vault} onVaultAction={props.onVaultAction} />
             <VaultWithdrawButton vault={props.vault} onVaultAction={props.onVaultAction} />
             <MintTokenButton vault={props.vault} />
+            <Link to={`/ninja/${props.vault.vault}`}>
+                <p>NINJA</p>
+            </Link>
         </div>
     );
 };
