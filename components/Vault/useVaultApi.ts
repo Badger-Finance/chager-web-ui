@@ -288,6 +288,8 @@ export function useVaultApi() {
                 { concurrency: 3 }
             );
 
+            console.log("vaultInfo", vaultInfo);
+
             const vaultData = await multicallProvider.all(
                 vaultInfo.map((info) => {
                     return chadgerRegistryMulticallContract.getVaultData(
@@ -297,22 +299,45 @@ export function useVaultApi() {
                 })
             );
 
+            console.log("vaultData", vaultData);
+
             const rewardTokenAddresses = _.chain(vaultData)
                 .map((i) => i.yield.map((a: any) => a.token) as string[])
                 .flatten()
                 .map((i: string) => i.toLowerCase())
                 .uniq()
                 .value();
-            const tokenInfo = await multicallProvider.allDict(
-                rewardTokenAddresses.map((address) => {
-                    const contract = new MultiCallContract(address, ERC20ABI);
-                    return {
-                        address: address,
-                        name: contract.name(),
-                        symbol: contract.symbol(),
-                    };
-                })
-            );
+
+            console.log("rewardTokenAddresses", rewardTokenAddresses);
+            const tokenInfo = [];
+            try {
+                tokenInfo = await multicallProvider.allDict(
+                    rewardTokenAddresses.map((address) => {
+                        console.log("address??", address);
+                        const contract = new MultiCallContract(address, ERC20ABI);
+                        return {
+                            address: address,
+                            name: ((contract) => {
+                                try {
+                                    return contract.name();
+                                } catch (err) {
+                                    return "";
+                                }
+                            })(),
+                            symbol: ((contract) => {
+                                try {
+                                    return contract.symbol();
+                                } catch (err) {
+                                    return "";
+                                }
+                            })(),
+                        };
+                    })
+                );
+            } catch (err) {}
+
+            console.log("tokenInfo", tokenInfo);
+
             const tokenInfoMap = _.keyBy(tokenInfo, (i) => i.address as string);
             const vaults = vaultData.map((i): VaultBaseInfo => {
                 return {

@@ -11,9 +11,6 @@ const Home: NextPage = () => {
     return (
         <div suppressHydrationWarning>
             <HashRouter>
-                <Link to="/ninja/0x96d4dBdc91Bef716eb407e415c9987a9fAfb8906">
-                    <p>NINJA</p>
-                </Link>
                 <Routes>
                     <Route path="/" element={<HomePage />} />
                     <Route path="/vault/:address" element={<VaultPage />} />
