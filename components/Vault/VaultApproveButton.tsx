@@ -193,6 +193,16 @@ const VaultApproveButton: FunctionComponent<VaultApproveButtonProps> = ({ vault,
                                             setInputValue(event.target.value);
                                         }}
                                     />
+                                    <div>
+                                        <button
+                                            className="text-sm font-medium text-[#E93BF8]"
+                                            onClick={() => {
+                                                setInputValue(tokenInfo?.balanceFormatted?.toString() || "");
+                                            }}
+                                        >
+                                            MAX
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                             <div className="mt-1 flex flex-row justify-between">
